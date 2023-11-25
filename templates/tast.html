@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Перемещаемое изображение</title>
+  <style>
+    #container {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      border: 2px solid #000;
+      overflow: hidden;
+    }
+    #draggable {
+      position: absolute;
+      cursor: grab;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <img id="draggable" src="your-image.png" alt="Draggable Image">
+  </div>
+
+  <script>
+    let draggable = document.getElementById('draggable');
+    let container = document.getElementById('container');
+    let offset = {x: 0, y: 0};
+    let isMouseDown = false;
+
+    draggable.addEventListener('mousedown', function(e) {
+      isMouseDown = true;
+      offset.x = e.offsetX;
+      offset.y = e.offsetY;
+    });
+
+    document.addEventListener('mouseup', function() {
+      isMouseDown = false;
+    });
+
+    container.addEventListener('mousemove', function(e) {
+      if (isMouseDown) {
+        draggable.style.left = e.clientX - container.offsetLeft - offset.x + 'px';
+        draggable.style.top = e.clientY - container.offsetTop - offset.y + 'px';
+      }
+    });
+  </script>
+</body>
+</html>
