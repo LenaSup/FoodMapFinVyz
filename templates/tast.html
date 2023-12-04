@@ -16,12 +16,17 @@
       position: absolute;
       cursor: grab;
     }
+    #enlarge {
+    }
+    #reduce{
+    }
   </style>
 </head>
 <body>
   <div id="container">
-    <img id="draggable" src="your-image.png" alt="Draggable Image">
+    <img id="draggable" src="static/img/food.jpg" alt="Draggable Image" draggable="false">
   </div>
+  <a>{{test}}</a>
 
   <script>
     let draggable = document.getElementById('draggable');
@@ -41,10 +46,12 @@
 
     container.addEventListener('mousemove', function(e) {
       if (isMouseDown) {
+
         draggable.style.left = e.clientX - container.offsetLeft - offset.x + 'px';
         draggable.style.top = e.clientY - container.offsetTop - offset.y + 'px';
       }
     });
   </script>
+
 </body>
 </html>

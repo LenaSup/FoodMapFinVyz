@@ -4,17 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title></title>
+    <style>
+    #container {
+      position: relative;
+      border-radius: 45px;
+      float: right;
+      width: 800px;
+      border: 4px solid #22656b;
+      overflow: hidden;
+    }
+    #draggable {
+      height: 1000px;
+      width: 1000px;
+      position: absolute;
+      cursor: grab;
+    }
+  </style>
 </head>
-<body style="overflow: hidden;">
-<header style="
-  width:100%;
-  top:-5%;
-  left:-5%;
-  background: #04859D;">
-    <p> <strong style="
-    font-family:'PT Sans';
-    color: #fff;"> КАРТА ЕДЫ </strong> </p>
-</header>>
-<a> pass</a>
+<body style="">
+<header> <div style="
+  overflow: hidden;
+  height: 100px;
+  border-radius: 25px;
+  background: #2b7f87;">
+   <p style="padding-left: 30px;">
+       <strong style="
+       z-index: 2;
+       position: absolute;
+       font-size: 250%;
+       font-family: gabriola;
+       color: #fff;">Карта еды</strong> </p>
+    <p style="text-align: center; margin-top: -17px;">
+        <img src="static/img/dicor.jpg" style="z-index: 1;"  draggable="false"></p>
+</div>
+</header>
+<div style="margin: 2%; display: flex; justify-content: space-between; height: 500px;">
+    <div style="width: 25px;"></div>
+    <div id="container"> <img id="draggable" src="static/img/food.jpg" alt="Draggable Image" draggable="false"> </div>
+    <div style="
+    border-radius: 45px 0 0 45px;
+    border: 4px solid #22656b;
+    width: 200px;
+    padding: 45px;
+    overflow-y:scroll;
+    margin: 0 0 0 3%"></div>
+</div>
+  <script>
+    let draggable = document.getElementById('draggable');
+    let container = document.getElementById('container');
+    let offset = {x: 0, y: 0};
+    let isMouseDown = false;
+
+    draggable.addEventListener('mousedown', function(e) {
+      isMouseDown = true;
+      offset.x = e.offsetX;
+      offset.y = e.offsetY;
+    });
+
+    document.addEventListener('mouseup', function() {
+      isMouseDown = false;
+    });
+
+    container.addEventListener('mousemove', function(e) {
+  if (isMouseDown) {
+    let leftPos = e.clientX - container.offsetLeft - offset.x;
+    let topPos = e.clientY - container.offsetTop - offset.y;
+
+    if (topPos < 0 && topPos < draggable.height) {
+      draggable.style.top = topPos + 'px';
+    }
+    if (leftPos < 0){
+      draggable.style.left = leftPos + 'px';
+    }
+  }
+    });
+  </script>
 </body>
 </html>
