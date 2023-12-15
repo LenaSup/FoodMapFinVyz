@@ -1,8 +1,8 @@
-from flask import Flask, render_template
-from form import MainForm
+from flask import Flask, render_template, request
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from restaurants import Rest
+from dish import Dish
 
 
 app = Flask(__name__)
@@ -17,14 +17,17 @@ session.commit()
 
 @app.route('/')
 def start_search():
-    form = MainForm()
-    return render_template('main_form.html',  title='', restaurants=restaurants, form=form)
+    return render_template('main_form.html',
+                           title='', objects=restaurants, restaurants=restaurants, search=True)
 
 
-@app.route('/<rest_name>', )
-def show_menu(rest_name):
-    form = MainForm()
-    return render_template('main_form.html', title='', form=form)
+@app.route('/menu', methods=['GET'])
+def show_menu():
+    rest_id = request.args.get('id')
+    dishs = session.query(Dish).filter(rest_id)
+    session.commit()
+    return render_template('main_form.html',
+                           title='', objects=dishs, restaurants=restaurants, search=False)
 
 
 def main():

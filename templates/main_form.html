@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title></title>
     <style>
+    A:link {
+    text-decoration: none;
+    color: #6b3b75;
+   }
+   A:visited { text-decoration: none; color: #6b3b75;}
+   A:active { text-decoration: none; color: #6b3b75; }
+   A:hover { color: #cc72ba; }
     #container {
       position: relative;
       border-radius: 45px;
@@ -14,8 +21,8 @@
       overflow: hidden;
     }
     #draggable {
-      height: 1000px;
-      width: 1000px;
+      height: 1243px;
+      width: 1260px;
       position: absolute;
       cursor: grab;
     }
@@ -26,7 +33,7 @@
   overflow: hidden;
   height: 100px;
   border-radius: 25px;
-  background: #2b7f87;">
+  background: #2c9a9c;">
    <p style="padding-left: 30px;">
        <strong style="
        z-index: 2;
@@ -40,20 +47,46 @@
 </header>
 <div style="margin: 2%; display: flex; justify-content: space-between; height: 500px;">
     <div style="width: 25px;"></div>
-    <div id="container"> <img id="draggable" src="static/img/food.jpg" alt="Draggable Image" draggable="false"> </div>
+    <div id="container"> <img id="draggable" src="static/img/map_img.png" alt="Draggable Image" draggable="false">
+        {% for rest in restaurants%}
+        <img class="imglabel" src="static/img/6627371.png"  alt="Draggable Image" draggable="false"
+        style="top: {{rest.coords_y}};
+               left: {{rest.coords_x}};
+                height: 50px;
+                width: 50px;
+                position: absolute;
+                cursor: grab;">
+        {% endfor %}
+    </div>
     <div style="
     border-radius: 45px 0 0 45px;
     border: 4px solid #22656b;
     width: 200px;
     padding: 45px;
+    overflow-x: hidden;
     overflow-y:scroll;
-    margin: 0 0 0 3%"></div>
+    margin: 0 0 0 3%">
+    {% if search %}
+        {% for rest in objects%}
+        <div style="text-align: right;">
+            <a style="font-family: trebuchet ms; font-size: 150%;" href="/menu?id={{rest.id}}"> {{rest.name}}
+            </a></div>
+        <hr style="width: 300px; margin: 10px 0 35px 0" noshade color="#d6d6d6">
+        {% endfor %}
+    {% else %}
+        {% for dish in objects%}
+
+        {% endfor %}
+    {% endif %}
+    </div>
 </div>
   <script>
     let draggable = document.getElementById('draggable');
     let container = document.getElementById('container');
+    var restList = document.getElementsByClassName('imglabel');
     let offset = {x: 0, y: 0};
     let isMouseDown = false;
+
 
     draggable.addEventListener('mousedown', function(e) {
       isMouseDown = true;
@@ -70,11 +103,16 @@
     let leftPos = e.clientX - container.offsetLeft - offset.x;
     let topPos = e.clientY - container.offsetTop - offset.y;
 
-    if (topPos < 0 && topPos < draggable.height) {
-      draggable.style.top = topPos + 'px';
-    }
-    if (leftPos < 0){
-      draggable.style.left = leftPos + 'px';
+    if (topPos < 0 && topPos > -draggable.height + 500) {
+        draggable.style.top = topPos + 'px';
+        for (let i = 0; i < restList.length; i++) {
+        restList[i].style.top = e.clientY - restList[i].offsetTop - offset.y + "px";}
+      }
+
+    if (leftPos < 0 && leftPos > -draggable.width + 800){
+        draggable.style.left = leftPos + 'px';
+        for (let i = 0; i < restList.length; i++) {
+        restList[i].style.left = e.clientX - restList[i].offsetLeft - offset.x + "px";}
     }
   }
     });

@@ -9,4 +9,5 @@ class Rest(Base):
     __tablename__ = 'restaurants'
     id = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
     name = Column(String)
-    coords = Column(String)
+    coords_x = Column(Integer)
+    coords_y = Column(Integer)
