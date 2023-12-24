@@ -33,7 +33,7 @@
   overflow: hidden;
   height: 100px;
   border-radius: 25px;
-  background: #2c9a9c;">
+  background: #2D8088;">
    <p style="padding-left: 30px;">
        <strong style="
        z-index: 2;
@@ -42,20 +42,21 @@
        font-family: gabriola;
        color: #fff;">Карта еды</strong> </p>
     <p style="text-align: center; margin-top: -17px;">
-        <img src="static/img/dicor.jpg" style="z-index: 1;"  draggable="false"></p>
+        <img src="static/img/food_img.jpg" style="z-index: 1;"  draggable="false"></p>
 </div>
 </header>
 <div style="margin: 2%; display: flex; justify-content: space-between; height: 500px;">
     <div style="width: 25px;"></div>
     <div id="container"> <img id="draggable" src="static/img/map_img.png" alt="Draggable Image" draggable="false">
         {% for rest in restaurants%}
-        <img class="imglabel" src="static/img/6627371.png"  alt="Draggable Image" draggable="false"
-        style="top: {{rest.coords_y}};
-               left: {{rest.coords_x}};
+        <a href="/menu?id={{rest.id}}">
+        <img class="imglabel" src="static/img/label_img.png"  alt="Draggable Image" draggable="false"
+        style=" top: {{rest.coords_y}}px;
+                left: {{rest.coords_x}}px;
                 height: 50px;
                 width: 50px;
-                position: absolute;
-                cursor: grab;">
+                position: absolute;">
+        </a>
         {% endfor %}
     </div>
     <div style="
@@ -87,6 +88,11 @@
     let offset = {x: 0, y: 0};
     let isMouseDown = false;
 
+    var pozList = []
+    for (let i = 0; i < restList.length; i++){
+        pozList.push({x: restList[i].offsetLeft, y: restList[i].offsetTop});
+    }
+
 
     draggable.addEventListener('mousedown', function(e) {
       isMouseDown = true;
@@ -105,15 +111,19 @@
 
     if (topPos < 0 && topPos > -draggable.height + 500) {
         draggable.style.top = topPos + 'px';
+
         for (let i = 0; i < restList.length; i++) {
-        restList[i].style.top = e.clientY - restList[i].offsetTop - offset.y + "px";}
+        restList[i].style.top = pozList[i].y +  topPos + "px";
+        }
       }
 
     if (leftPos < 0 && leftPos > -draggable.width + 800){
         draggable.style.left = leftPos + 'px';
+
         for (let i = 0; i < restList.length; i++) {
-        restList[i].style.left = e.clientX - restList[i].offsetLeft - offset.x + "px";}
-    }
+        restList[i].style.left = pozList[i].x + leftPos + "px";
+        }
+      }
   }
     });
   </script>

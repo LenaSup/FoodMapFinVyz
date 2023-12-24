@@ -25,6 +25,7 @@ def start_search():
 def show_menu():
     rest_id = request.args.get('id')
     dishs = session.query(Dish).filter(rest_id)
+    print(dishs)
     session.commit()
     return render_template('main_form.html',
                            title='', objects=dishs, restaurants=restaurants, search=False)
