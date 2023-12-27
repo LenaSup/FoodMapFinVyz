@@ -76,7 +76,12 @@
         {% endfor %}
     {% else %}
         {% for dish in objects%}
-
+             <div style="text-align: right;">
+            <a style="font-family: trebuchet ms; color: #6d4073;  font-size: 130%;"> {{dish.position}}
+            </a>
+             </div>
+        <a style="font-family: trebuchet ms; color: #2D8088;">{{dish.price}}</a>
+        <hr style="width: 300px; margin: 10px 0 35px 0" noshade color="#d6d6d6">
         {% endfor %}
     {% endif %}
     </div>

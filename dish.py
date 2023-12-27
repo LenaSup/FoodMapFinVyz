@@ -7,6 +7,7 @@ Base = declarative_base()
 
 class Dish(Base):
     __tablename__ = 'dishs'
-    rest_id = Column(Integer, primary_key=True, unique=True, autoincrement=False, nullable=False)
+    id = Column(Integer, primary_key=True, unique=True, autoincrement=False, nullable=False)
+    rest_id = Column(Integer)
     position = Column(String)
     price = Column(String)
